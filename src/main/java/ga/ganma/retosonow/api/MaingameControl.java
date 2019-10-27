@@ -10,15 +10,15 @@ import org.bukkit.plugin.Plugin;
 
 
 public class MaingameControl {
+
+    private static MainGametimer mg = new MainGametimer();
     public static void gamestart(Plugin plugin){
-        new MainGametimer().runTaskTimer(plugin,0,20);
-        for(Player p : Bukkit.getOnlinePlayers()){
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, gettime());
-        }
+        mg.runTaskTimer(plugin,0,20);
     }
 
     public static void gameend(Plugin plugin){
-
+        mg.cancel();
+        Retosonow.resetGamemanager();
     }
 
     public static TextComponent gettime(){

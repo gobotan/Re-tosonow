@@ -1,3 +1,7 @@
 name: Retosonow
 version: ${project.version}
 main: ga.ganma.retosonow.Retosonow
+commands:
+  toso:
+    description: toso commands.
+    permission: toso.admin

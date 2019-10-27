@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class GamePlayer {
     private static HashMap<Player,Position> playerPosition = new HashMap<>();
-    private static ArrayList<Player> runner = new ArrayList<>()
+    private static Collection<Player> runner = new ArrayList<>()
             ,hunter = new ArrayList<>()
             ,jailer = new ArrayList<>()
             ,admin = new ArrayList<>();
@@ -49,6 +49,7 @@ public class GamePlayer {
                 gm.removeRunner(player);
                 gm.addhunter(player);
                 break;
+
             case JAILER:
 
                 if(gm.isrunner(player))
@@ -67,6 +68,7 @@ public class GamePlayer {
                 gm.removeRunner(player);
                 gm.addjailer(player);
                 break;
+
             case RUNNER:
                 if(gm.ishunter(player))
                 hunter.remove(player);
@@ -83,6 +85,7 @@ public class GamePlayer {
                 gm.removehunter(player);
                 gm.addrunner(player);
                 break;
+
             case ADMIN:
                 if(gm.ishunter(player))
                 hunter.remove(player);

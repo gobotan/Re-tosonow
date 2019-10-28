@@ -24,7 +24,7 @@ public class Mainscoreboard {
             Score s2 = objective.getScore(ChatColor.AQUA + "逃走者の人数：" + ChatColor.WHITE + Retosonow.getGamemanager().getRunner().size() + ChatColor.AQUA + "人");
             Score s3 = objective.getScore(ChatColor.DARK_GRAY + "牢獄の人数：" + ChatColor.WHITE + Retosonow.getGamemanager().getJailer().size() + ChatColor.DARK_GRAY + "人");
             Score s4 = objective.getScore(ChatColor.GOLD + "現在の賞金：" + ChatColor.WHITE + Retosonow.getGamemanager().getTotalprize() + ChatColor.GOLD + "ゾス");
-            Score s5 = objective.getScore(ChatColor.YELLOW + "現在のあなたの役職：" + ChatColor.WHITE + GamePlayer.getPlayerposition(player));
+            Score s5 = objective.getScore(ChatColor.YELLOW + "現在のあなたの役職：" + ChatColor.WHITE + GamePlayer.getPlayerpositionString(player));
             Score s6 = objective.getScore(ChatColor.BLUE + "残り時間：" + ChatColor.WHITE + Retosonow.getGamemanager().getTime() + ChatColor.BLUE + "秒");
             Score s7 = objective.getScore(ChatColor.DARK_PURPLE + "現在の賞金単価：" + ChatColor.WHITE + "1" + ChatColor.DARK_PURPLE + "秒" + ChatColor.WHITE + Retosonow.getGamemanager().getPrize() + ChatColor.DARK_PURPLE + "ゾス");
             Score s8 = objective.getScore("");
@@ -40,6 +40,12 @@ public class Mainscoreboard {
             s9.setScore(0);
             //プレイヤーにスコアボードを設定するやつ
             player.setScoreboard(sb);
+        }
+    }
+
+    public static void showallplayersidebar(){
+        for (Player p : Bukkit.getOnlinePlayers()){
+            setupScoreboard(p);
         }
     }
 }

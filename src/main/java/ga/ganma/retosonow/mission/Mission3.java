@@ -1,8 +1,6 @@
 package ga.ganma.retosonow.mission;
 
-import org.bukkit.Location;
-
-public class Mission1 extends MissionAPI {
+public class Mission3 extends MissionAPI {
     @Override
     public void onmission() {
 
@@ -28,4 +26,3 @@ public class Mission1 extends MissionAPI {
 
     }
 }
-

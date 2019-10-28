@@ -21,6 +21,9 @@ public class MainGametimer extends BukkitRunnable {
 
             //プレイヤーのアクションバーに残り時間の表示
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, MaingameControl.gettime());
+
+            //賞金の追加
+            Retosonow.getGamemanager().addprize();
         }
     }
 }

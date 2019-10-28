@@ -7,13 +7,11 @@ import jp.jyn.jecon.Jecon;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
-
 public class Economy {
     public static void sendPrize(){
         for (Player p : Bukkit.getOnlinePlayers()){
             if(GamePlayer.getPlayerposition(p) != null) {
-                if (Objects.requireNonNull(GamePlayer.getPlayerposition(p)).contains(Position.RUNNER.getJPtext())){
+                if (GamePlayer.getPlayerposition(p) == Position.RUNNER){
                     Jecon.getInstance().getRepository().deposit(p.getUniqueId(), Retosonow.getGamemanager().getTotalprize());
                 }
             }

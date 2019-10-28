@@ -2,8 +2,10 @@ package ga.ganma.retosonow;
 
 import ga.ganma.retosonow.command.*;
 import ga.ganma.retosonow.command.subCommands.*;
+import ga.ganma.retosonow.event.RunnerkakuhoEvent;
 import ga.ganma.retosonow.jecon.Jeconsetup;
-import ga.ganma.retosonow.listener.GamegetEvent;
+import ga.ganma.retosonow.listener.BukkitEventget;
+import ga.ganma.retosonow.listener.MyEventget;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -18,12 +20,12 @@ public final class Retosonow extends JavaPlugin {
     public void onEnable() {
         pl = this;
         Jeconsetup.moneysetup();
-        new GamegetEvent(this);
         this.saveDefaultConfig();
         FileConfiguration config = getConfig();
         int prize = config.getInt("prize");
         int time = config.getInt("time");
-
+        //イベントの登録
+        registerEvent();
         //コマンドの実装
         this.registerCommands();
         //ゲームマネージャーの作成
@@ -51,6 +53,7 @@ public final class Retosonow extends JavaPlugin {
         return manager;
     }
 
+    //ゲームマネージャーをリセット（無に返す）
     public static void resetGamemanager(){
         manager = null;
     }
@@ -73,4 +76,10 @@ public final class Retosonow extends JavaPlugin {
         //Bukkitにコマンドの登録
         getCommand("toso").setExecutor(handler);
     }
+
+    private void registerEvent(){
+        new BukkitEventget(this);
+        new RunnerkakuhoEvent();
+    }
+
 }

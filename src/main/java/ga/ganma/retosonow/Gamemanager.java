@@ -1,17 +1,19 @@
 package ga.ganma.retosonow;
 
+import ga.ganma.retosonow.api.Position;
+import ga.ganma.retosonow.mission.*;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class Gamemanager {
     private int prize,time;
     private long totalprize;
-    private ArrayList<Player> runner = new ArrayList<>()
-            ,hunter = new ArrayList<>()
-            ,jailer = new ArrayList<>()
-            ,admin = new ArrayList<>();
+    private HashMap<Player, Position> playerposition = new HashMap<>();
+    private ArrayList<MissionAPI> mission = new ArrayList<>();
     private boolean isgamestart;
     Gamemanager(int prize, int time){
         this.prize = prize;
@@ -19,83 +21,68 @@ public class Gamemanager {
     }
 
     public void addrunner(Player runner){
-        this.runner.add(runner);
+        this.playerposition.put(runner,Position.RUNNER);
     }
 
     public void addrunner(ArrayList<Player> runner){
-        this.runner.addAll(runner);
+        for(Player p : runner){
+            this.playerposition.put(p,Position.RUNNER);
+        }
     }
 
     public void addhunter(Player hunter){
-        this.hunter.add(hunter);
+        this.playerposition.put(hunter,Position.HUNTER);
     }
 
     public void addhunter(ArrayList<Player> hunter){
-        this.hunter.addAll(hunter);
+        for (Player p : hunter){
+            playerposition.put(p,Position.HUNTER);
+        }
     }
 
     public void addAdmin(ArrayList<Player> admin) {
-        this.admin.addAll(admin);
+        for (Player p : admin){
+            playerposition.put(p, Position.ADMIN);
+        }
     }
 
     public void addAdmin(Player admin){
-        this.admin.add(admin);
+        playerposition.put(admin,Position.ADMIN);
     }
 
     public Collection<Player> getAdmin(){
-        return admin;
+        ArrayList<Player> admins = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()){
+            if(playerposition.get(p) == Position.ADMIN){
+                admins.add(p);
+            }
+        }
+        return admins;
     }
 
     public boolean runnerkakuho(Player runner){
-        if(this.runner.contains(runner)){
-            this.runner.remove(runner);
-            this.jailer.add(runner);
-
+        if(isrunner(runner)){
+            playerposition.put(runner,Position.JAILER);
             return true;
         }
         return false;
     }
 
     public boolean runnerRevival(Player jailer){
-        if(this.jailer.contains(jailer)){
-            this.jailer.remove(jailer);
-            this.runner.add(jailer);
-
-            return true;
+        if(isjailer(jailer)){
+            playerposition.put(jailer,Position.RUNNER);
         }
         return false;
     }
 
-    public void removeRunner(Player runner){
-        if(isrunner(runner)) {
-            this.runner.remove(runner);
-        }
-    }
-
-    public void removehunter(Player hunter){
-        if(ishunter(hunter)) {
-            this.hunter.remove(hunter);
-        }
-    }
-
-    public void removejailer(Player jailer){
-        if(isjailer(jailer)){
-            this.jailer.remove(jailer);
-        }
-    }
-
-    public void removeadmin(Player admin){
-        if(isadmin(admin)){
-            this.admin.remove(admin);
-        }
-    }
-
     public void addjailer(Player jailer){
-        this.jailer.add(jailer);
+        playerposition.put(jailer,Position.JAILER);
     }
 
     public void addjailer(ArrayList<Player> jailer){
-        this.jailer.addAll(jailer);
+        for (Player p : jailer){
+            playerposition.put(p, Position.JAILER);
+        }
     }
 
     public int getPrize() {
@@ -106,32 +93,50 @@ public class Gamemanager {
         return time;
     }
 
-    public ArrayList<Player> getRunner() {
-        return runner;
+    public Collection<Player> getRunner() {
+        ArrayList<Player> runners = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()){
+            if(playerposition.get(p) == Position.RUNNER){
+                runners.add(p);
+            }
+        }
+        return runners;
     }
 
-    public ArrayList<Player> getHunter() {
-        return hunter;
+    public Collection<Player> getHunter() {
+        ArrayList<Player> hunters = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()){
+            if(playerposition.get(p) == Position.HUNTER){
+                hunters.add(p);
+            }
+        }
+        return hunters;
     }
 
     public ArrayList<Player> getJailer() {
-        return jailer;
+        ArrayList<Player> jailers = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()){
+            if(playerposition.get(p) == Position.ADMIN){
+                jailers.add(p);
+            }
+        }
+        return jailers;
     }
 
     public boolean isrunner(Player player){
-        return this.runner.contains(player);
+        return playerposition.containsKey(player);
     }
 
     public boolean isjailer(Player player){
-        return this.jailer.contains(player);
+        return playerposition.containsKey(player);
     }
 
     public boolean ishunter(Player player){
-        return this.hunter.contains(player);
+        return playerposition.containsKey(player);
     }
 
     public boolean isadmin(Player player){
-        return this.admin.contains(player);
+        return playerposition.containsKey(player);
     }
 
     public void setgamestart(){
@@ -172,5 +177,20 @@ public class Gamemanager {
 
     public long getTotalprize(){
         return totalprize;
+    }
+
+    public ArrayList<MissionAPI> getAllmission(){
+        return mission;
+    }
+
+    public void registermission(){
+        mission.add(new Mission1());
+        mission.add(new Mission2());
+        mission.add(new Mission3());
+        mission.add(new Mission4());
+    }
+
+    public HashMap<Player,Position> getPlayerpositionHashMap(){
+        return playerposition;
     }
 }

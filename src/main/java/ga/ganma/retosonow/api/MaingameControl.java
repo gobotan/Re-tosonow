@@ -5,6 +5,8 @@ import ga.ganma.retosonow.mission.FinalMission;
 import ga.ganma.retosonow.mission.MissionAPI;
 import ga.ganma.retosonow.runneble.MainGametimer;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -75,5 +77,16 @@ public class MaingameControl {
     public static Player randomselectPlayer(ArrayList<Player> players){
         Collections.shuffle(players);
         return players.get(0);
+    }
+
+    public Location gethunterboxLoc(int boxnumber, String worldname){
+        FileConfiguration fc2 = Retosonow.gethunterboxConfig(boxnumber);
+        String location = fc2.getString(worldname + ".Location");
+        return Serialize.getLocationFromString(location);
+    }
+
+    public void sethunterboxloc(int boxnumber , Location loc){
+        FileConfiguration fc2 = Retosonow.gethunterboxConfig(boxnumber);
+        fc2.set(loc.getWorld().getName() + ".location",Serialize.getStringFromLocation(loc));
     }
 }

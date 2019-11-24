@@ -14,5 +14,6 @@ public class MyEventget implements Listener {
 
     @EventHandler
     public void getRunnerkakuhoEvent(RunnerkakuhoEvent e){
+        e.setCancelled(true);
     }
 }

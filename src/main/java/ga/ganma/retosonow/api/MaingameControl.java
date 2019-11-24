@@ -89,4 +89,6 @@ public class MaingameControl {
         FileConfiguration fc2 = Retosonow.gethunterboxConfig(boxnumber);
         fc2.set(loc.getWorld().getName() + ".location",Serialize.getStringFromLocation(loc));
     }
+
+
 }

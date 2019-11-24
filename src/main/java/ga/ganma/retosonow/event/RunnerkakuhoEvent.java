@@ -1,21 +1,27 @@
 package ga.ganma.retosonow.event;
 
-import ga.ganma.retosonow.api.GamePlayer;
-import ga.ganma.retosonow.api.Position;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 
-public class RunnerkakuhoEvent extends Event implements Listener, Cancellable {
+public class RunnerkakuhoEvent extends Event implements Cancellable {
 
     private static HandlerList handlers = new HandlerList();
     private Player runner,hunter;
     private boolean cancelled;
 
+    public RunnerkakuhoEvent(Player runner , Player hunter){
+        this.runner = runner;
+        this.hunter = hunter;
+    }
+
     @Override
     public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
@@ -25,23 +31,6 @@ public class RunnerkakuhoEvent extends Event implements Listener, Cancellable {
 
     public Player getHunter() {
         return hunter;
-    }
-
-    @EventHandler
-    public void getEntityDamageByEntityEvent(EntityDamageByEntityEvent e){
-        Entity fromentity = e.getEntity();
-        Entity toentity = e.getDamager();
-        if(fromentity instanceof Player && toentity instanceof Player){
-            Player fromplayer = (Player) fromentity;
-            Player toplayer = (Player) toentity;
-            if(GamePlayer.getPlayerposition(fromplayer) == Position.RUNNER &&
-            GamePlayer.getPlayerposition(toplayer) == Position.HUNTER){
-                runner = fromplayer;
-                hunter = toplayer;
-                RunnerkakuhoEvent event = new RunnerkakuhoEvent();
-                Bukkit.getServer().getPluginManager().callEvent(event);
-            }
-        }
     }
 
     @Override

@@ -5,9 +5,9 @@ import ga.ganma.retosonow.command.MainCommand;
 import ga.ganma.retosonow.command.subCommands.*;
 import ga.ganma.retosonow.config.HunterboxConfig;
 import ga.ganma.retosonow.config.MainConfig;
-import ga.ganma.retosonow.event.RunnerkakuhoEvent;
 import ga.ganma.retosonow.jecon.Jeconsetup;
 import ga.ganma.retosonow.listener.BukkitEventget;
+import ga.ganma.retosonow.listener.MyEventget;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -22,26 +22,20 @@ public final class Retosonow extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        try {
-            pl = this;
-            Jeconsetup.moneysetup();
-            this.saveDefaultConfig();
-            mainconfig = new MainConfig(this);
-            hunterboxconfig = new HunterboxConfig[mainconfig.getConfig().getInt("hunterboxcount")];
-            createHunterboxConfig();
-            int prize = mainconfig.getConfig().getInt("prize");
-            int time = mainconfig.getConfig().getInt("time");
-            //イベントの登録
-            registerEvent();
-            //コマンドの実装
-            this.registerCommands();
-            //ゲームマネージャーの作成
-            creategamemanager(prize, time);
-        }
-        catch (Exception e){
-            getLogger().warning(prefix + "設定ファイルが不正です！");
-            getLogger().warning(prefix + "Re:tosonowを終了します。");
-        }
+        pl = this;
+        Jeconsetup.moneysetup();
+        this.saveDefaultConfig();
+        mainconfig = new MainConfig(this);
+        hunterboxconfig = new HunterboxConfig[mainconfig.getConfig().getInt("hunterboxcount")];
+        createHunterboxConfig();
+        int prize = mainconfig.getConfig().getInt("prize");
+        int time = mainconfig.getConfig().getInt("time");
+        //イベントの登録
+        registerEvent();
+        //コマンドの実装
+        this.registerCommands();
+        //ゲームマネージャーの作成
+        creategamemanager(prize, time);
     }
 
     @Override
@@ -83,15 +77,15 @@ public final class Retosonow extends JavaPlugin {
         handler.register("end", new TosoTime());
         handler.register("setting",new TosoSetting());
         handler.register("help",new TosoHelp());
-        handler.register("hunterbox",new TosoHunter());
+        handler.register("hunter",new TosoHunter());
 
-        //Bukkitにコマンドの登録
+        //コマンドの登録
         getCommand("toso").setExecutor(handler);
     }
 
     private void registerEvent(){
         new BukkitEventget(this);
-        new RunnerkakuhoEvent();
+        new MyEventget(this);
     }
 
     public static FileConfiguration getMainconfig(){

@@ -3,14 +3,19 @@ package ga.ganma.retosonow.listener;
 import ga.ganma.retosonow.Retosonow;
 import ga.ganma.retosonow.api.GamePlayer;
 import ga.ganma.retosonow.api.Position;
+import ga.ganma.retosonow.event.RunnerkakuhoEvent;
 import ga.ganma.retosonow.scoreboard.Mainscoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCreatePortalEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -55,7 +60,7 @@ public class BukkitEventget implements Listener {
                             }
 
                         }
-                    }.runTaskTimer(this.pl, 20, 30);
+                    }.runTaskTimer(this.pl, 0, 30);
                 }
             } else {
                 if (!iswalktasknow.containsKey(pl) || !iswalktasknow.get(pl)) {
@@ -73,7 +78,7 @@ public class BukkitEventget implements Listener {
                             }
 
                         }
-                    }.runTaskTimer(this.pl, 20, 50);
+                    }.runTaskTimer(this.pl, 50, 50);
                 }
             }
         }
@@ -85,11 +90,25 @@ public class BukkitEventget implements Listener {
             Player pl = e.getPlayer();
             if(Retosonow.getGamemanager().getHunter().contains(pl)){
                 if(e.isSprinting()){
-                    pl.setWalkSpeed(0.25f);
+                    pl.setWalkSpeed(0.225f);
                 }
                 else {
-                    pl.setWalkSpeed(0.15f);
+                    pl.setWalkSpeed(0.18f);
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void getEntityDamageByEntityEvent(EntityDamageByEntityEvent e){
+        Entity fromentity = e.getEntity();
+        Entity toentity = e.getDamager();
+        if(fromentity instanceof Player && toentity instanceof Player){
+            Player fromplayer = (Player) fromentity;
+            Player toplayer = (Player) toentity;
+            if(GamePlayer.getPlayerposition(fromplayer) == Position.RUNNER &&
+                    GamePlayer.getPlayerposition(toplayer) == Position.HUNTER){
+                Bukkit.getServer().getPluginManager().callEvent(new RunnerkakuhoEvent(fromplayer, toplayer));
             }
         }
     }

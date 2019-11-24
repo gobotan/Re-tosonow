@@ -1,6 +1,30 @@
 package ga.ganma.retosonow.mission;
 
-public class FinalMission {
+public class FinalMission{
     //最後に必ず来るミッション
-    //ミッションAPIとは関係なく、最後に必ず呼び出されるためAPIは不要
+    private final String missionname = "";
+
+    public void onmission() {
+
+    }
+
+
+    public String getmissionname() {
+        return null;
+    }
+
+
+    public void missionend() {
+
+    }
+
+
+    public void missionfailure() {
+
+    }
+
+
+    public void missionSuccess() {
+
+    }
 }

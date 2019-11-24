@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class Gamemanager {
-    private int prize,time;
+    private int prize,time,starttime;
     private long totalprize;
     private HashMap<Player, Position> playerposition = new HashMap<>();
     private ArrayList<MissionAPI> mission = new ArrayList<>();
@@ -18,6 +18,7 @@ public class Gamemanager {
     Gamemanager(int prize, int time){
         this.prize = prize;
         this.time = time;
+        this.starttime = time;
     }
 
     public void addrunner(Player runner){
@@ -163,6 +164,10 @@ public class Gamemanager {
         if(this.time > 0) {
             this.time--;
         }
+    }
+
+    public int getstarttime(){
+        return this.starttime;
     }
 
     public void addprize(int add){
